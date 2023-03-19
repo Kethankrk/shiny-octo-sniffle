@@ -1,7 +1,22 @@
 import ProductCard from "../Components/ProductCard";
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Download = () => {
+  const [fetching, setFetching] = useState("");
+  useEffect(() => {
+    const fetchFunction = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/download");
+        setFetching(response.data);
+      } catch (e) {
+        alert(e);
+      }
+    };
+    fetchFunction()
+  }, []);
+
   return (
     <>
       <nav className="flex px-16 justify-between h-[70px] items-center bg-black text-white text-sm">
@@ -51,31 +66,20 @@ const Download = () => {
       <div className="px-24 bg-black text-white py-14">
         <h1 className="text-3xl font-bold text-blue">Products</h1>
         <div className="w-full justify-evenly p-10 flex flex-wrap gap-10">
-          <ProductCard
-            name="Product Name"
-            link="https://google.com"
-            category="Printer"
-          />
-          <ProductCard
-            name="Product Name"
-            link="https://google.com"
-            category="Printer"
-          />
-          <ProductCard
-            name="Product Name"
-            link="https://google.com"
-            category="Printer"
-          />
-          <ProductCard
-            name="Product Name"
-            link="https://google.com"
-            category="Printer"
-          />
-          <ProductCard
-            name="Product Name"
-            link="https://google.com"
-            category="Printer"
-          />
+          {fetching ? (
+            fetching.map((item) => {
+              return (
+                <ProductCard
+                  key={item.productName}
+                  name={item.productName}
+                  link={item.productDownloadLink}
+                  category={item.productCategory}
+                />
+              );
+            })
+          ) : (
+            <p>Loading</p>
+          )}
         </div>
       </div>
     </>

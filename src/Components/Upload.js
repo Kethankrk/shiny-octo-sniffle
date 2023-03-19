@@ -1,14 +1,40 @@
 import { useState } from "react";
-
+import axios from "axios";
+import Modal from "./Modal";
 const Upload = ({ close }) => {
   const [uploadTextDetails, setUploadTextDetails] = useState({
     productName: "",
     productCategory: "",
     productDownloadLink: "",
   });
-  const uploadSubmit = (event) => {
+
+  const [uploading, setUploading] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
+
+  const uploadSubmit = async (event) => {
     event.preventDefault();
-    console.log(uploadTextDetails);
+    setUploading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/upload",
+        uploadTextDetails
+      );
+
+      console.log(response.data);
+      if (response.data.status === "success") {
+        setUploadTextDetails({
+          productName: "",
+          productCategory: "",
+          productDownloadLink: "",
+        });
+      } else {
+        alert(response.data.error);
+      }
+    } catch (err) {
+      alert(err);
+    }
+    setUploading(false);
+    setUploaded(true)
   };
   const uploadTextState = (event) => {
     setUploadTextDetails((prev) => ({
@@ -61,20 +87,20 @@ const Upload = ({ close }) => {
         required
       />
 
-      <label htmlFor="" className="text-sm font-bold">
+      {/* <label htmlFor="" className="text-sm font-bold">
         Product Image
       </label>
-      <input type="file" className="mt-1 mb-10" />
+      <input type="file" className="mt-1 mb-10" /> */}
       <div className="flex justify-between ">
         <button
-          className="py-1 px-5 rounded-md bg-danger font-bold"
+          className="py-1 px-5 rounded-md bg-danger font-bold w-[90px] h-[36px]"
           type="button"
           onClick={close}
         >
           Cancel
         </button>
         <button
-          className="py-1 px-5 rounded-md bg-warning font-bold"
+          className="py-1 px-5 rounded-md bg-warning font-bold w-[90px] h-[36px]"
           type="button"
           onClick={() =>
             setUploadTextDetails({
@@ -86,9 +112,23 @@ const Upload = ({ close }) => {
         >
           Reset
         </button>
-        <button className="py-1 px-5 rounded-md bg-success font-bold" type="submit">
-          Submit
+        <button
+          className="py-1 px-5 rounded-md bg-success font-bold w-[90px] h-[36px]"
+          type="submit"
+        >
+          {uploading ? (
+            <img
+              className="h-[28px] mx-auto"
+              src="/Images/loading.svg"
+              alt=""
+            />
+          ) : (
+            "Submit"
+          )}
         </button>
+        <Modal open={uploaded} close={()=> setUploaded(false)}>
+            <p>Uploaded successfully</p>
+        </Modal>
       </div>
     </form>
   );

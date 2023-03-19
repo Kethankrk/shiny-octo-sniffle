@@ -5,6 +5,7 @@ import Admin from "./Pages/Admin";
 import AdminDashboard from "./Pages/AdminDashboard";
 import ProtectedRoutes from "./Components/ProtectedRoutes";
 import Download from "./Pages/Download";
+import Edit from "./Pages/Edit";
 
 function App() {
   return (
@@ -22,6 +23,11 @@ function App() {
         element={<ProtectedRoutes components={<AdminDashboard />} />}
       />
       <Route exact path="/download" element={<Download />} />
+      <Route
+        exact
+        path="/edit"
+        element={<ProtectedRoutes components={<Edit />} />}
+      />
     </Routes>
   );
 }

@@ -4,14 +4,13 @@ import Modal from "../Components/Modal";
 import Upload from "../Components/Upload";
 
 const Admin = () => {
+  const [file1Open, setFile1Open] = useState(false);
+  const navigate = useNavigate();
+  const logout = () => {
+    localStorage.removeItem("token");
+    navigate("/adminlogin");
+  };
 
-  const [file1Open, setFile1Open] = useState(false)
-  const navigate = useNavigate()
-  const logout = ()=>{
-    localStorage.removeItem('token')
-    navigate("/adminlogin")
-  }
-  const [isActive, setIsActive] = useState(1)
   return (
     <div className="h-screen">
       {/* headbar  */}
@@ -25,7 +24,9 @@ const Admin = () => {
           <p>Tools</p>
           <p>Help</p>
         </div>
-        <p className="absolute right-6 cursor-pointer" onClick={logout}>Logout</p>
+        <p className="absolute right-6 cursor-pointer" onClick={logout}>
+          Logout
+        </p>
       </div>
       {/* subheadbar  */}
       <div className="flex h-[40px] z-10">
@@ -69,7 +70,7 @@ const Admin = () => {
         {/* filespace  */}
         <div className="filespace w-10/12 bg-lightblue h-20 absolute right-0 p-20 flex gap-16">
           {/* file1  */}
-          <div className="w-[140px] h-fit" onClick={()=> setFile1Open(true)}>
+          <div className="w-[140px] h-fit" onClick={() => setFile1Open(true)}>
             <img
               src="./Images/file.png"
               alt="file image"
@@ -79,20 +80,22 @@ const Admin = () => {
               Upload Products
             </p>
           </div>
-          <Modal open={file1Open} close={()=> setFile1Open(false)}>
-            <Upload close={()=> setFile1Open(false)}/>
+          <Modal open={file1Open} close={() => setFile1Open(false)}>
+            <Upload close={() => setFile1Open(false)} />
           </Modal>
           {/* file2  */}
-          <div className="w-[140px] h-fit">
-            <img
-              src="./Images/file.png"
-              alt="file image"
-              className="w-[100px] mx-auto"
-            />
-            <p className="text-center text-white font-semibold">
-              Edit / Delete Products
-            </p>
-          </div>
+          <Link to="/edit">
+            <div className="w-[140px] h-fit">
+              <img
+                src="./Images/file.png"
+                alt="file image"
+                className="w-[100px] mx-auto"
+              />
+              <p className="text-center text-white font-semibold">
+                Edit / Delete Products
+              </p>
+            </div>
+          </Link>
         </div>
       </div>
     </div>
