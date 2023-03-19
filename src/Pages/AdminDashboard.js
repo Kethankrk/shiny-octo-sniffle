@@ -1,6 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Components/Modal";
 const AdminDashboard = () => {
+  const navigate = useNavigate()
+  const logout = ()=>{
+    localStorage.removeItem('token')
+    navigate("/adminlogin")
+  }
   return (
     <div className="h-screen">
       {/* headbar  */}
@@ -14,7 +19,7 @@ const AdminDashboard = () => {
           <p>Tools</p>
           <p>Help</p>
         </div>
-        <Link className="absolute right-6" to="/adminlogin">Logout</Link>
+        <p className="absolute right-6 cursor-pointer" onClick={logout}>Logout</p>
       </div>
       {/* subheadbar  */}
       <div className="flex h-[40px] z-10">
@@ -34,7 +39,7 @@ const AdminDashboard = () => {
           </div>
           <div className="bg-lightblue w-[95%] mx-auto sidebarfiles">
             <Link to="/admin">
-              <div className="h-[35px] w-full bg-green flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
+              <div className="h-[35px] w-ful flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
                 <img
                   src="/Images/file.png"
                   alt="file image"
@@ -44,7 +49,7 @@ const AdminDashboard = () => {
               </div>
             </Link>
             <Link to="/admin/dashboard">
-              <div className="h-[35px] w-full bg-lightblue flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
+              <div className="h-[35px] w-full bg-green flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
                 <img
                   src="/Images/file.png"
                   alt="file image"

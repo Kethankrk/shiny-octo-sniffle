@@ -67,14 +67,14 @@ const Upload = ({ close }) => {
       <input type="file" className="mt-1 mb-10" />
       <div className="flex justify-between ">
         <button
-          className="py-1 px-5 rounded-md bg-lightblue"
+          className="py-1 px-5 rounded-md bg-danger font-bold"
           type="button"
           onClick={close}
         >
           Cancel
         </button>
         <button
-          className="py-1 px-5 rounded-md bg-lightblue"
+          className="py-1 px-5 rounded-md bg-warning font-bold"
           type="button"
           onClick={() =>
             setUploadTextDetails({
@@ -86,7 +86,7 @@ const Upload = ({ close }) => {
         >
           Reset
         </button>
-        <button className="py-1 px-5 rounded-md bg-lightblue" type="submit">
+        <button className="py-1 px-5 rounded-md bg-success font-bold" type="submit">
           Submit
         </button>
       </div>

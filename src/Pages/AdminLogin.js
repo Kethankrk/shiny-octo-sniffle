@@ -1,13 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
+
+  const navigate = useNavigate()
+  useEffect(()=>{
+    const auth = localStorage.getItem('token')
+    if(auth){
+      navigate("/admin")
+    }
+  })
+
+
   const [LoginDetails, setLoginDetails] = useState({
     username: "",
     password: "",
   });
-  const navigate = useNavigate()
 
   //   function onSubmit
   const AdminLogin = async (event) => {
@@ -19,7 +28,16 @@ const AdminLogin = () => {
         LoginDetails
       );
         if (res.data.status === "ok"){
-          navigate('/admin')
+          console.log(res.data)
+          try{
+            localStorage.setItem('token', JSON.stringify(res.data.token))
+            console.log("i am here")
+            navigate("/admin")
+          }
+          catch(err){
+            alert(err)
+            console.log("not working")
+          }
         }
         else{
           alert(res.data.err)

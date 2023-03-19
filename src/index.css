@@ -36,3 +36,20 @@ code {
 .modalContainer{
   background-color: rgba(54, 54, 54, 0.897);
 }
+
+.bgImage{
+  background-image: url("https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.wLrs3ARzVhD_EnktgdG81wHaEK%26pid%3DApi&f=1&ipt=8cc028a15a9a36c65b70595833f652e4b646a2a5a0945195776fbb635e9ff567&ipo=images");
+  background-position: center;
+}
+.bgImageLinear{
+  background: linear-gradient(180.37deg, rgba(75, 75, 75, 0.45) 0.32%, rgba(32, 32, 32, 0.452865) 0.33%, #000000 99.68%);
+}
+
+/* .downloadHeading{ */
+  /* background: -webkit-linear-gradient(#15b6e7, #03c93e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+/* } */
+.product-card{
+  background: rgba(21, 21, 21, 0.56);
+}

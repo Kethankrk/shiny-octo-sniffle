@@ -1,11 +1,17 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Modal from "../Components/Modal";
 import Upload from "../Components/Upload";
 
 const Admin = () => {
 
   const [file1Open, setFile1Open] = useState(false)
+  const navigate = useNavigate()
+  const logout = ()=>{
+    localStorage.removeItem('token')
+    navigate("/adminlogin")
+  }
+  const [isActive, setIsActive] = useState(1)
   return (
     <div className="h-screen">
       {/* headbar  */}
@@ -19,7 +25,7 @@ const Admin = () => {
           <p>Tools</p>
           <p>Help</p>
         </div>
-        <Link className="absolute right-6" to="/adminlogin">Logout</Link>
+        <p className="absolute right-6 cursor-pointer" onClick={logout}>Logout</p>
       </div>
       {/* subheadbar  */}
       <div className="flex h-[40px] z-10">
@@ -39,7 +45,7 @@ const Admin = () => {
           </div>
           <div className="bg-lightblue w-[95%] mx-auto sidebarfiles">
             <Link to="/admin">
-              <div className="h-[35px] w-full bg-green flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
+              <div className=" bg-green h-[35px] w-full flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
                 <img
                   src="/Images/file.png"
                   alt="file image"
@@ -49,7 +55,7 @@ const Admin = () => {
               </div>
             </Link>
             <Link to="/admin/dashboard">
-              <div className="h-[35px] w-full bg-lightblue flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
+              <div className="h-[35px] w-full flex justify-start px-3 items-center gap-2 text-white font-semibold text-sm">
                 <img
                   src="/Images/file.png"
                   alt="file image"
