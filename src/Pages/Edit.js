@@ -1,10 +1,11 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Modal from "../Components/Modal";
 
 const Edit = () => {
   const [fetching, setFetching] = useState("");
+
   useEffect(() => {
     const fetchFunction = async () => {
       try {
@@ -51,14 +52,45 @@ const Edit = () => {
 };
 
 const EditCard = ({ name, category, link }) => {
-  const productEditSubmit = (e) => {
+  const productEditSubmit = async (e) => {
     e.preventDefault();
-    console.log(e.target);
+    setRecord((prev) => ({
+      ...prev,
+      newName: productNameRef.current.value,
+      newCategory: productCategoryRef.current.value,
+      newLink: productDownloadLinkRef.current.value,
+    }));
+
+    setConformBtn(true);
   };
 
-  const [oldRecord, setOldRecord] = useState("");
+  const conformFunction = async () => {
+    try{
+    const response = await axios.post("http://localhost:5000/edit", Record);
+    
+    if (response.data.status === "ok"){
+      window.location.reload()
+    }
+    }
+    catch(err){
+      alert(err)
+    }
+  };
+
+  const [Record, setRecord] = useState({
+    oldName: "",
+    newName: "",
+    newCategory: "",
+    newLink: "",
+  });
 
   const [openEdit, setOpenEdit] = useState(false);
+
+  const [conformBtn, setConformBtn] = useState(false);
+
+  const productNameRef = useRef("");
+  const productCategoryRef = useRef("");
+  const productDownloadLinkRef = useRef("");
 
   return (
     <div className="p-6 bg-lightblue rounded-xl flex flex-col items-center">
@@ -70,26 +102,28 @@ const EditCard = ({ name, category, link }) => {
         name={name}
         onClick={(e) => {
           setOpenEdit(true);
-          setOldRecord({ productName: e.target.name });
+          setRecord((prev) => ({ ...prev, oldName: e.target.name }));
         }}
       >
         Edit
       </button>
 
       <Modal open={openEdit} close={() => setOpenEdit(false)}>
-        <form className="grid text-white">
+        <form className="grid text-white" onSubmit={productEditSubmit}>
           <label htmlFor="name">Product Name</label>
           <input
             type="text"
             name="name"
             defaultValue={name}
             className="text-sm p-2 rounded-md mb-10 bg-lightblue"
+            ref={productNameRef}
           />
           <label htmlFor="category">Product Category</label>
           <select
             name="category"
             defaultValue={category}
             className="text-sm p-2 rounded-md mb-10 bg-lightblue"
+            ref={productCategoryRef}
           >
             <option>-- select one --</option>
             <option>Camera</option>
@@ -104,14 +138,27 @@ const EditCard = ({ name, category, link }) => {
             name="link"
             defaultValue={link}
             className="text-sm p-2 rounded-md mb-10 bg-lightblue"
+            ref={productDownloadLinkRef}
           />
           <div className="flex justify-between  w-full">
-            <button className="py-1 px-5 rounded-md bg-danger font-bold w-[90px] h-[36px]">
+            <button
+              className="py-1 px-5 rounded-md bg-danger font-bold w-[90px] h-[36px]"
+              onClick={() => setOpenEdit(false)}
+            >
               Cancel
             </button>
-            <button className="py-1 px-5 rounded-md bg-warning font-bold w-[90px] h-[36px]" onClick={() => setOpenEdit(false)}>
-              Update
-            </button>
+            {conformBtn ? (
+              <button
+                onClick={conformFunction}
+                className="py-1 px-5 rounded-md bg-success font-bold w-[96px] h-[36px] text-center"
+              >
+                Conform
+              </button>
+            ) : (
+              <button className="py-1 px-5 rounded-md bg-warning font-bold w-[90px] h-[36px]">
+                Update
+              </button>
+            )}
           </div>
         </form>
       </Modal>
@@ -121,4 +168,4 @@ const EditCard = ({ name, category, link }) => {
 
 export default Edit;
 
-                    //   just use useRef 
+//   just use useRef
